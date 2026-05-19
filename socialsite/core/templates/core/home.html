@@ -1,0 +1,90 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+
+<!-- FEED -->
+
+<div class="feed-container">
+
+    {% if posts %}
+
+        {% for post in posts %}
+
+        <div class="card mb-3 card-custom">
+            <div class="card-body">
+                <strong>{{ post.user.username }}</strong>
+                <img src="{{ post.image.url }}">
+                <p class="mt-2">{{ post.caption }}</p>
+            </div>
+        </div>
+        
+        {% endfor %}
+
+    {% else %}
+    <div class="empty-feed">
+      <p class="empty-text">There’s nothing here yet. :(</p>
+    </div>
+
+    {% endif %}
+
+</div>
+
+<button class="create-btn" onclick="openPost()">+</button>
+<!-- modals -->
+
+<div id="postModal" class="modal-overlay">
+    <div class="modal-box">
+
+        <div class="modal-header">
+            <h4>Create Post</h4>
+        </div>
+
+        <form method="POST" enctype="multipart/form-data" class="post-form">
+            {% csrf_token %}
+
+            <!-- IMAGE PICKER -->
+            <div class="upload-area">
+                <label class="upload-btn" for="id_image">
+                    + Add Image
+                </label>
+                {{ form.image }}
+            </div>
+
+            <!-- CAPTION -->
+            <div class="caption-area">
+                {{ form.caption }}
+            </div>
+
+            <!-- ACTION -->
+            <button type="submit" class="post-btn">
+                Post
+            </button> 
+
+        </form>
+
+        <button class="cancel-btn" onclick="closePost()">
+            Cancel
+        </button>
+
+    </div>
+</div>
+
+<script>
+function openPost() {
+    document.getElementById("postModal").style.display = "flex";
+}
+
+function closePost() {
+    document.getElementById("postModal").style.display = "none";
+}
+
+const modal = document.getElementById("postModal");
+
+window.onclick = function(event) {
+    if (event.target === modal) {
+        modal.style.display = "none";
+    }
+};
+</script>
+
+{% endblock %}

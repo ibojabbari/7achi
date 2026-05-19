@@ -1,0 +1,53 @@
+{% extends "core/base.html" %}
+
+{% block navbar %} 
+{% endblock %}
+
+{% block content %}
+
+<div class="auth-wrapper">
+
+    <div class="auth-card">
+
+        <div class="auth-title">
+            حچي
+        </div>
+
+        <p class="auth-subtitle">Welcome back</p>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="auth-input">
+                {{ form.username }}
+            </div>
+
+            <div class="auth-input">
+                {{ form.password }}
+            </div>
+
+            <button type="submit" class="auth-btn">
+                Login
+            </button>
+        </form>
+
+        <div class="auth-footer">
+            No account?
+            <a href="/register/">Create one</a>
+        </div>
+
+        {{ form.non_field_errors }}
+
+    </div>
+
+</div>
+
+<script>
+document.querySelector("form").addEventListener("submit", function () {
+    const overlay = document.getElementById("transition-overlay");
+
+    overlay.style.opacity = "1";
+    overlay.style.filter = "blur(8px)";
+});
+</script>
+{% endblock %}
